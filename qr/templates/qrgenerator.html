@@ -1,0 +1,16 @@
+<!-- asistencias/templates/asistencias/mostrar_codigo_qr.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Código QR de Asistente</title>
+</head>
+<body>
+    <h1>Información del alumno:</h1>
+    <p>Nombre: {{ alumno.nombre }}</p>
+    <p>Apellido: {{ alumno.apellido }}</p>
+    <p>Email: {{ alumno.email }}</p>
+    
+    <h2>Código QR:</h2>
+    <img src="data:image/png;base64,{{ image_data|base64 }}" alt="Código QR">
+</body>
+</html>

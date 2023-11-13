@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lector de códigos QR</title>
+</head>
+<body>
+    <script>
+        document.getElementById('get-location').addEventListener('click', function() {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+    
+                // Agregar los valores de latitud y longitud al formulario y enviarlo
+                var form = document.forms[0];
+                form.querySelector('#id_latitude').value = latitude;
+                form.querySelector('#id_longitude').value = longitude;
+                form.submit();
+            });
+        });
+    </script>
+    
+    <h1>Lector de códigos QR</h1>
+    <video id="camera-view" autoplay></video>
+
+    <script>
+        // Obtener acceso a la cámara
+        navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function (stream) {
+            // Asociar la corriente de la cámara al elemento de video
+            document.getElementById('camera-view').srcObject = stream;
+        })
+        .catch(function (error) {
+            console.error('Error al acceder a la cámara:', error);
+        });
+    </script>
+
+    <script>
+        // Obtener acceso a la cámara
+        navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function (stream) {
+            // Asociar la corriente de la cámara al elemento de video
+            document.getElementById('camera-view').srcObject = stream;
+        })
+        .catch(function (error) {
+            console.error('Error al acceder a la cámara:', error);
+        });
+    </script>
+
+    <script src="ruta/a/jsQR.js"></script>
+    <script>
+        const video = document.getElementById('camera-view');
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        video.onplay = function () {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            function scanQRCode() {
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+                if (code) {
+                    console.log('Código QR leído:', code.data);
+                    // Aquí puedes realizar acciones con el código QR leído
+                }
+
+                requestAnimationFrame(scanQRCode);
+            }
+
+            scanQRCode();
+        };
+    </script>
+
+</body>
+</html>
